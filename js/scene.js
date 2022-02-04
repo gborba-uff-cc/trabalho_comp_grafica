@@ -41,6 +41,8 @@ export class Scene {
 
         this.orbitCamera = false;
         this.activeCamera = new SceneCamera();
+        // NOTE - 'Matrix' cam effect
+        this.dequeAccDt = 0.0;
         // console.log(this.activeCamera);
 
         this._viewTransformation = Util.identity4;
@@ -82,8 +84,18 @@ export class Scene {
 
     update() {
         if (this.orbitCamera) {
-            let orbitRy = Math.PI / 16 * this.dt;
+            // NOTE - 10 segundos para terminar o efeito
+            this.dequeAccDt += this.dt;
+            this.dequeAccDt %= 10.0;
+
+            let orbitRy = Math.PI / 5 * this.dt;
             this.activeCamera.orbitTo(0.0,0.0,0.0,0.0,orbitRy,0.0);
+
+            const height = Math.cos(this.dequeAccDt/Math.PI)/2.0+1.0;
+            this.activeCamera.eyey = height;
+        }
+        else {
+            this.dequeAccDt = 0.0;
         }
         this._viewTransformation = this.activeCamera.transformation;
     }
