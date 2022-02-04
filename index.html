@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="../dev_icon.svg" />
+    <link rel="stylesheet" href="../reset-and-common.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+
+    <style>
+        .input-visual-size-4 {
+            width: 5rem;
+        }
+        .w-4ch {
+            width: 4rem;
+        }
+        .flex-even {
+            flex: 1 0 0px;
+            /* min-width: fit-content; */
+        }
+    </style>
+
+    <script src="./js/mathjs/math.min.js"></script>
+
+    <title>Document</title>
+
+</head>
+<!-- <body class="debug container bg-dark text-light"> -->
+<body class="container bg-dark text-light">
+    <div class="d-flex">
+        <div class="mx-auto">
+            <canvas id="glCanvas"></canvas>
+            <div class="d-flex mt-1 px-3">
+                <button type="button" id="btnload" class="btn btn-light me-2">Load Scene</button>
+                <div class="flex-grow-1"></div>
+                <label for="glCanvas" class="d-block text-end">WebGl2 Canvas</label>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <!-- <label for="worldSizeForm"></label> -->
+    <form id="worldSizeForm" class="d-inline-block mb-4">
+        <fieldset class="d-flex flex-column mb-2">
+            <legend>World Size <span class="text-muted">{centered on (0,0,0)}</span></legend>
+            <!-- NOTE - layout gonna break if remove the previous span -->
+            <div class="d-flex">
+                <label class="flex-even text-end">left<input type="number" name="wldleft" id="wldleft" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                <label class="flex-even text-end">right<input type="number" name="wldright" id="wldright" value="0" step="any"  class="input-visual-size-4 ms-2 my-1 px-2"></label>
+            </div>
+            <div class="d-flex">
+                <label class="flex-even text-end">bottom<input type="number" name="wldbottom" id="wldbottom" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                <label class="flex-even text-end">top<input type="number" name="wldtop" id="wldtop" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+            </div>
+            <div class="d-flex">
+                <label class="flex-even text-end">near<input type="number" name="wldnear" id="wldnear" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                <label class="flex-even text-end">far<input type="number" name="wldfar" id="wldfar" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+            </div>
+        </fieldset>
+        <div class="px-3">
+            <button class="btn btn-primary me-2">Accept</button>
+            <!-- <button type="reset" class="btn btn-light me-2">Reset</button> -->
+        </div>
+    </form>
+
+    <br>
+
+    <!-- <label for="cameraForm"></label> -->
+    <form id="cameraForm" class="d-inline-block mb-4">
+        <fieldset form="cameraForm">
+            <legend>Camera</legend>
+            <br>
+            <div class="d-inline-flex mb-2">
+                <div class="d-flex flex-column me-3">
+                    <label>up x<input type="number" name="upx" id="upx" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>up y<input type="number" name="upy" id="upy" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>up z<input type="number" name="upz" id="upz" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                </div>
+                <div class="d-flex flex-column me-3">
+                    <label>cam x<input type="number" name="camx" id="camx" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>cam y<input type="number" name="camy" id="camy" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>cam z<input type="number" name="camz" id="camz" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                </div>
+                <div class="d-flex flex-column me-3">
+                    <label>target x<input type="number" name="targetx" id="targetx" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>target y<input type="number" name="targety" id="targety" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>target z<input type="number" name="targetz" id="targetz" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                </div>
+            </div>
+        </fieldset>
+        <!-- <br> -->
+        <div class="mb-2 px-2">
+            <label class="me-2"><input type="radio" name="camProj" id="camProjPersp" value="perspective" checked class="me-2">Perspective</label>
+            <label class="me-2"><input type="radio" name="camProj" id="camProjOrtho" value="orthogonal" class="me-2">Orthogonal</label>
+        </div>
+        <div class="mb-2 px-2">
+            <label><input type="checkbox" name="camOrbitate" id="camOrbitate" class="me-2">Rotate around y axis</label>
+        </div>
+        <div class="px-3">
+            <button class="btn btn-primary me-2">Accept</button>
+            <!-- <button type="reset" class="btn btn-light me-2">Reset</button> -->
+        </div>
+    </form>
+
+    <br>
+
+    <!-- <label for="lightsForm"></label> -->
+    <form id="lightsForm" class="d-inline-block mb-4">
+        <div class="d-inline-flex mb-3">
+            <fieldset id="lgt1Group" class="me-3">
+                <legend>Light 1</legend>
+                <div class="d-flex flex-column">
+                    <label>x<input type="number" name="lgt1x" id="lgt1x" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>y<input type="number" name="lgt1y" id="lgt1y" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>z<input type="number" name="lgt1z" id="lgt1z" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>Intensity<input type="range" name="lgt1i" id="lgt1i" class="d-block input-visual-size-4 mx-auto"></label>
+                </div>
+            </fieldset>
+            <fieldset id="lgt2Group" class="me-3">
+                <legend>Light 2</legend>
+                <div class="d-flex flex-column">
+                    <label>x<input type="number" name="lgt2x" id="lgt2x" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>y<input type="number" name="lgt2y" id="lgt2y" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>z<input type="number" name="lgt2z" id="lgt2z" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>Intensity<input type="range" name="lgt2i" id="lgt2i" class="d-block input-visual-size-4 mx-auto"></label>
+                </div>
+            </fieldset>
+            <fieldset id="lgt3Group" class="me-3">
+                <legend>Light 3</legend>
+                <div class="d-flex flex-column">
+                    <label>x<input type="number" name="lgt3x" id="lgt3x" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>y<input type="number" name="lgt3y" id="lgt3y" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>z<input type="number" name="lgt3z" id="lgt3z" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>Intensity<input type="range" name="lgt3i" id="lgt3i" class="d-block input-visual-size-4 mx-auto"></label>
+                </div>
+            </fieldset>
+            <fieldset id="lgt4Group" class="me-3">
+                <legend>Light 4</legend>
+                <div class="d-flex flex-column">
+                    <label>x<input type="number" name="lgt4x" id="lgt4x" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>y<input type="number" name="lgt4y" id="lgt4y" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>z<input type="number" name="lgt4z" id="lgt4z" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>Intensity<input type="range" name="lgt4i" id="lgt4i" class="d-block input-visual-size-4 mx-auto"></label>
+                </div>
+            </fieldset>
+            <fieldset id="lgt5Group" class="me-3">
+                <legend>Light 5</legend>
+                <div class="d-flex flex-column">
+                    <label>x<input type="number" name="lgt5x" id="lgt5x" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>y<input type="number" name="lgt5y" id="lgt5y" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>z<input type="number" name="lgt5z" id="lgt5z" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    <label>Intensity<input type="range" name="lgt5i" id="lgt5i" class="d-block input-visual-size-4 mx-auto"></label>
+                </div>
+            </fieldset>
+        </div>
+        <div class="px-3">
+            <button class="btn btn-primary me-2">Accept</button>
+            <!-- <button type="reset" class="btn btn-light me-2">Reset</button> -->
+        </div>
+    </form>
+
+    <br>
+
+    <!-- <label for="modelForm"></label> -->
+    <form id="modelForm" class="d-inline-block mb-4">
+        <fieldset class="mb-2">
+            <legend>Insert Model<span><small class="text-muted"> {working only with 3 vertex faces}</small></span></legend>
+            <input type="file" name="file" id="file" accept=".ply" required class="mb-2">
+        </fieldset>
+
+        <div class="px-3">
+            <button class="btn btn-primary me-2">Accept</button>
+            <!-- <button type="reset" class="btn btn-light me-2">Reset</button> -->
+        </div>
+    </form>
+
+    <br>
+
+    <div class="d-inline-block mb-4">
+        <legend>Model(s) added</legend>
+        <div id="addedModels" class="d-inline-flex flex-wrap mb-2"></div>
+    </div>
+
+    <template id="modelTemplate">
+        <form class="border border-1 border-light rounded-3 p-3 mb-2 me-2">
+            <div>
+                <legend>Model <span class="modelN">#</span></legend>
+            </div>
+            <div class="d-inline-flex align-items-end mb-2">
+                <fieldset>
+                    <legend>Origin</legend>
+                    <div class="d-flex flex-column me-3">
+                        <label>x<input type="number" name="" id="" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                        <label>y<input type="number" name="" id="" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                        <label>z<input type="number" name="" id="" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Position</legend>
+                    <div class="d-flex flex-column me-3">
+                        <label>x<input type="number" name="" id="" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                        <label>y<input type="number" name="" id="" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                        <label>z<input type="number" name="" id="" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Scale</legend>
+                    <div class="d-flex flex-column me-3">
+                        <label>x<input type="number" name="" id="" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                        <label>y<input type="number" name="" id="" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                        <label>z<input type="number" name="" id="" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Rotation</legend>
+                    <div class="d-flex flex-column me-3">
+                        <label>x<input type="number" name="" id="" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                        <label>y<input type="number" name="" id="" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                        <label>z<input type="number" name="" id="" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="d-flex">
+                <div class="mx-auto px-3">
+                    <button class="btn btn-primary me-2">Accept</button>
+                    <!-- <button type="reset" class="btn btn-light me-2">Reset</button> -->
+                    <button type="button" class="btn btn-danger me-2 removeModel">Remove</button>
+                </div>
+            </div>
+        </form>
+    </template>
+
+    <!-- SECTION - scripts -->
+    <script src="./js/index.js" type="module"></script>
+    <!-- !SECTION -->
+</body>
+</html>
