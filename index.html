@@ -21,6 +21,9 @@
             flex: 1 0 0px;
             /* min-width: fit-content; */
         }
+        #worldSizeForm {
+            min-width: 300px;
+        }
     </style>
 
     <script src="./js/mathjs/math.min.js"></script>
@@ -46,7 +49,7 @@
     <!-- <label for="worldSizeForm"></label> -->
     <form id="worldSizeForm" class="d-inline-block mb-4">
         <fieldset class="d-flex flex-column mb-2">
-            <legend>World Size <span class="text-muted">{centered on (0,0,0)}</span></legend>
+            <legend>World Size</legend>
             <!-- NOTE - layout gonna break if remove the previous span -->
             <div class="d-flex">
                 <label class="flex-even text-end">left<input type="number" name="wldleft" id="wldleft" value="0" step="any" class="input-visual-size-4 ms-2 my-1 px-2"></label>
