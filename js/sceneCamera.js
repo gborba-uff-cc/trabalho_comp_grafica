@@ -128,6 +128,7 @@ export class SceneCamera {  // NOTE - working
         let acc = Util.identity4;
         acc = Util.cpuTranslate(-centerx,-centery,-centerz,acc);
         acc = Util.cpuRotate(rx,ry,rz,acc);
+        acc = Util.cpuTranslate(centerx,centery,centerz,acc);
         this.targetx = centerx;
         this.targety = centery;
         this.targetz = centerz;

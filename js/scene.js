@@ -83,10 +83,7 @@ export class Scene {
     update() {
         if (this.orbitCamera) {
             let orbitRy = Math.PI / 16 * this.dt;
-            this.activeCamera.orbitTo(0,0,0,0,orbitRy,0);
-        }
-        else {
-            this.activeCamera.orbitTo(0,0,0,0,0,0);
+            this.activeCamera.orbitTo(0.0,0.0,0.0,0.0,orbitRy,0.0);
         }
         this._viewTransformation = this.activeCamera.transformation;
     }
