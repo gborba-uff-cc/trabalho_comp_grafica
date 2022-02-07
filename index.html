@@ -5,12 +5,21 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" href="../dev_icon.svg" />
-    <link rel="stylesheet" href="../reset-and-common.css">
-    <link rel="stylesheet" href="./css/index.css">
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
 
     <style>
+        * {
+            margin: 0;
+            border: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* usa a tela inteira */
+        body {
+            /* 100vw faz com que o espaço usado pela y-scroolbar seja adicionado a largura */
+            width: 100%;
+            height: 100vh;
+        }
         .input-visual-size-4 {
             width: 5rem;
         }
@@ -25,6 +34,10 @@
             min-width: 300px;
         }
     </style>
+
+    <link rel="shortcut icon" href="./dev_icon.svg"/>
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
 
     <script src="./js/mathjs/math.min.js"></script>
 
