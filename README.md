@@ -19,7 +19,7 @@ Usando o código base, desenvolvido durante as aulas do nosso curso, construa um
 
 ![2Bunnies](./img.png)
 
-* É necessário um servidor para fornecer s página . Durante o desenvolvimento foi utilizado a extensão Live Server do VSCode.
+* É necessário um servidor para fornecer a página . Durante o desenvolvimento foi utilizado a extensão Live Server do VSCode.
 
 * Usando a projeção perspectiva, é possível modificar o volume de visão através da interface do usuário somente através do campo near e far do tamanho do mundo (ficou faltando o input do fovy na interface).
 
